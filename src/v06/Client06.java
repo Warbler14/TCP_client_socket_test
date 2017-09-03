@@ -71,8 +71,8 @@ public class Client06 {
 					// TODO: handle exception
 				}
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				//waver.close();
-				//socket.close();
+				waver.close();
+				socket.close();
 			}
 			// 스트림과 소켓을 닫는다.
 			System.out.println("연결을 종료합니다.");
