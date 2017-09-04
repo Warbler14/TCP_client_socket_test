@@ -38,14 +38,9 @@ public class Client07 {
 			
 			for (int i = 0; i < 30; i++) {
 				
-				
-				
 				// 서버에 보낼 메시지 준비
 				String sendData = null;
 				sendData = message01( 1 );
-				
-				
-				
 				
 				byte [] sendByteData = sendData.getBytes();
 				System.out.println("size " + sendData.length() + " " + sendByteData.length);
@@ -69,12 +64,8 @@ public class Client07 {
 				System.out.println( time03 - time02);
 				System.out.println( time03 - time01);
 				
-				
-				
 				//waver.serveData( sendData.getBytes() );
 				//waver.receiveData();
-				
-				
 				
 				try {
 					Thread.sleep(1000);
@@ -82,8 +73,8 @@ public class Client07 {
 					// TODO: handle exception
 				}
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				waver.close();
-				socket.close();
+				//waver.close();
+				//socket.close();
 			}
 			// 스트림과 소켓을 닫는다.
 			System.out.println("연결을 종료합니다.");
