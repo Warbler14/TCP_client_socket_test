@@ -1,4 +1,4 @@
-package v07;
+package v08;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -63,11 +63,6 @@ public class DataStreamUtil {
 	public String receiveData() throws IOException {
 		if( this.dis == null ){
 			System.out.println("DataInputStream is null");
-			return null;
-		}
-		
-		if( dis.available() == 0 ){
-			System.out.println("do nothing");
 			return null;
 		}
 		

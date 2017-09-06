@@ -1,4 +1,4 @@
-package v07;
+package v08;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -11,7 +11,7 @@ import java.util.Date;
  * @author insung
  *
  */
-public class Client07 {
+public class Client08 {
 	public static void main(String args[]) {
 		
 		
@@ -38,8 +38,13 @@ public class Client07 {
 			
 			System.out.println("======================START======================");
 			
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < 10; i++) {
 
+				
+				// 소켓으로 부터 받은 데이터를 출력한다.
+				String dataRead = waver.receiveData();
+				long time03 = System.currentTimeMillis();				
+				System.out.println("서버로부터 받은 메세지 : " + dataRead );
 				
 				
 				
@@ -58,11 +63,6 @@ public class Client07 {
 				
 				//System.out.println("send finish");
 	
-				// 소켓으로 부터 받은 데이터를 출력한다.
-				String dataRead = waver.receiveData();
-				long time03 = System.currentTimeMillis();				
-				System.out.println("서버로부터 받은 메세지 : " + dataRead );
-				
 				
 				
 				
