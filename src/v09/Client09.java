@@ -1,0 +1,147 @@
+package v09;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * 바이트 스트림 테스트
+ * 
+ * @author insung
+ *
+ */
+public class Client09 {
+	public static void main(String args[]) {
+		
+		
+		
+		try {
+
+			
+			String serverIP = "127.0.0.1"; // 127.0.0.1 & localhost 본인
+			System.out.println("서버에 연결중입니다. 서버 IP : " + serverIP);
+			
+			// 소켓을 생성하여 연결을 요청한다.
+			Socket socket = new Socket(serverIP, 5000);
+			// 소켓의 입/출력스트림을 얻는다.
+			DataStreamUtil waver = new DataStreamUtil(socket);
+			
+			System.out.println("======================READY======================");
+			
+			while(true){
+				String dataRead = waver.receiveData();
+				if("start".equals( dataRead)){
+					break;
+				}
+				
+				Thread.sleep(100);	//cpu 과점유 방지
+			}
+			
+			System.out.println("======================START======================");
+			
+			for (int i = 0; i < 300; i++) {
+
+				
+				// 소켓으로 부터 받은 데이터를 출력한다.
+				String dataRead = waver.receiveData();			
+				System.out.println("서버로부터 받은 메세지 : " + dataRead );
+				
+				
+				if(dataRead != null && "heartbeat".equals(dataRead)){
+					System.out.println("!!! read heart beat !!!");
+					
+				}else{
+					
+					
+						// 서버에 보낼 메시지 준비
+						String sendData = null;
+						sendData = getTime() + message01( 1 );
+						
+						byte [] sendByteData = sendData.getBytes();
+						System.out.println("size " + sendData.length() + " " + sendByteData.length);
+						System.out.println("서버로 전송 할 메시지 : " + sendData );
+			
+						// 서버로 데이터를 전송한다.				
+						waver.serveData( sendByteData );
+						
+						//System.out.println("send finish");
+					
+					
+					
+				}
+	
+				
+				
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			}//end for
+			
+			// 스트림과 소켓을 닫는다.
+			System.out.println("연결을 종료합니다.");
+			waver.close();
+			socket.close();
+			
+		} catch (ConnectException ce) {
+			System.out.println("ConnectException " + ce.getMessage() ); 
+		} catch (IOException ie) {
+			System.out.println("IOException " + ie.getMessage() ); 
+		} catch (Exception e) {
+			System.out.println("Exception " + e.getMessage() ); 
+		} // try - catch
+
+	}
+	
+	private static String message01( int max){
+		String result = "";
+		String code = "";
+		for (int i = 0; i < 256; i++) {
+			code += String.valueOf('B');
+		}
+		
+		//System.out.println( "code : " + code + "\n length " + code.length());
+		
+		for (int i = 0; i < max;i++) {
+			result += code;
+		}
+		//System.out.println( result.length() );
+		return result;
+	}
+		
+	private static String message02( int max){
+		String result = "";
+		String code = "";
+		for (int i = 0; i < 256; i++) {
+			char c = (char)i;
+			code += String.valueOf(c);
+		}
+		
+		System.out.println( "code : " + code + "\n length " + code.length());
+		
+		for (int i = 0; i < max;i++) {
+			result += code;
+		}
+		System.out.println( result.length() );
+		return result;
+	}
+	
+	private static String message03(){
+		String result = "";
+		
+		for (int i = 0; i < 1025;i++) {
+			result += "0";
+		}
+		
+		return result;
+	}
+	
+	static String getTime() {
+		SimpleDateFormat f = new SimpleDateFormat("[hh:mm:ss]");
+		return f.format(new Date());
+	} // getTime
+	
+}
